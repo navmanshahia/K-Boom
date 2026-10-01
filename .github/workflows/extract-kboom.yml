@@ -1,0 +1,25 @@
+name: Extract K-Boom site
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'kboom-kleen-v2-award.zip'
+permissions:
+  contents: write
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract website
+        run: |
+          rm -rf .extract
+          mkdir .extract
+          unzip -o kboom-kleen-v2-award.zip -d .extract
+          cp -R .extract/kboom-redesign/. .
+          rm -rf .extract
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html package.json netlify.toml src
+          git diff --cached --quiet || git commit -m "Extract K-Boom website"
+          git push
