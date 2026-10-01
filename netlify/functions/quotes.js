@@ -1,9 +1,8 @@
 import { getStore } from '@netlify/blobs';
 import crypto from 'node:crypto';
 
-const TEST_PASSWORD='admin123';
 const statuses=['new','contacted','quote_sent','accepted','scheduled','in_progress','completed','paid','declined','cancelled'];
-const auth=e=>e.headers['x-admin-password']===TEST_PASSWORD||e.headers['x-admin-password']===process.env.KBOOM_ADMIN_PASSWORD;
+const auth=e=>Boolean(process.env.KBOOM_ADMIN_PASSWORD)&&e.headers['x-admin-password']===process.env.KBOOM_ADMIN_PASSWORD;
 const safe=x=>String(x??'').slice(0,4000);
 const token=()=>crypto.randomBytes(24).toString('hex');
 const event=(type,note='')=>({type,note,at:new Date().toISOString()});
