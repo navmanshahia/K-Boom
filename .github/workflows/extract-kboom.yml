@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'kboom-kleen-v2-award.zip'
+      - '.github/workflows/extract-kboom.yml'
 permissions:
   contents: write
 jobs:
