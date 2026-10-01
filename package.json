@@ -16,7 +16,10 @@
     "react-dom": "latest",
     "framer-motion": "latest",
     "lucide-react": "^0.468.0",
-    "@netlify/blobs": "latest"
+    "@netlify/blobs": "latest",
+    "@react-three/fiber": "latest",
+    "@react-three/drei": "latest",
+    "three": "latest"
   },
   "devDependencies": {}
 }
