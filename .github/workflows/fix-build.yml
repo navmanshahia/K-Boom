@@ -1,0 +1,26 @@
+name: Fix K-Boom build
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-build.yml'
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fix source
+        run: |
+          python3 - <<'PY'
+          p='src/main.jsx'
+          s=open(p).read()
+          s=s.replace("function Hero(){const{s}=useScroll(),y=useTransform(s,[0,800],[0,180]);","function Hero(){const{scrollY}=useScroll(),y=useTransform(scrollY,[0,800],[0,180]);")
+          s=s.replace("transition={{duration:1,ease:E,.1:1}}","transition={{duration:1,ease:E,delay:.1}}")
+          open(p,'w').write(s)
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/main.jsx
+          git commit -m "Fix K-Boom React build"
+          git push
