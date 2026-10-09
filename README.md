@@ -1,8 +1,29 @@
+# cPanel deployment — primary deployment method
+
+The `deploy/` folder contains the complete prebuilt website and PHP backend. No npm or Node is needed on your cPanel host. Requires PHP 8.1+ and Apache/LiteSpeed with `.htaccess` rewriting enabled. Use HTTPS.
+
+## Deploy HEAD Commit
+
+1. In cPanel Git Version Control, update this repository from `main`.
+2. In the Git checkout folder, create `deploy-path.txt` with one line containing the exact absolute destination, for example `/home/YOUR_USERNAME/public_html/kboom`. For a dedicated domain use its document root inside public_html. Do not use a folder belonging to another website.
+3. Click **Deploy HEAD Commit**. The included `.cpanel.yml` copies `deploy/` to that destination. No build commands run on the server.
+4. In the deployed destination, copy `config.example.php` to `config.php`, replacing the setup key with a unique random private value of at least 24 characters.
+5. Visit `https://YOUR_DOMAIN/YOUR_FOLDER/setup.php`, enter that installation key and choose an owner password of at least 14 characters. Setup locks after success.
+6. Open `/admin` within that same website folder. Submit a test enquiry and confirm it appears in the dashboard.
+
+Alternatively upload the complete contents of `deploy/`, **including `.htaccess`**, directly to the domain document root. Root and subfolder installations are supported. Keep `.private/` and `config.php` on the server; do not commit them or remove them on updates. Back up `.private/` to preserve enquiries and credentials. Its `.htaccess` denies web access; verify requests to that folder are forbidden after deployment.
+
+No email notifications or payments are configured. The owner checks the dashboard for enquiries. Existing Netlify records are not automatically migrated.
+
+To rebuild release files after source edits: `npm ci && npm run build:cpanel`, then commit `deploy/` as well as source changes.
+
+---
+
 # K-Boom Kleen — The art of arriving home
 
 A complete replacement of the previous application. React / Vite website, interactive Three.js room, Node API and Netlify Blobs persistence. Previous source remains recoverable in Git history.
 
-## Deploy to Netlify (full stack)
+## Optional Netlify deployment
 
 Connect this repository, branch `main`. The included `netlify.toml` sets `npm run build`, `dist`, functions and API routes. Node 22 or newer is required. Netlify provisions Blobs storage automatically.
 
@@ -13,7 +34,7 @@ Set environment variables in Netlify **before using the owner dashboard**:
 
 Redeploy after adding variables. Open `/admin` to sign in. No default password exists. The existing environment variable name is preserved for compatibility, but this new application uses a separate `kboom-v3-production` store; it does not migrate or delete historical enquiry data.
 
-The public site can display on static hosting, but enquiry persistence and admin require the backend. GitHub Pages or copying `dist` alone to cPanel does NOT provide the API. Netlify is the supported production deployment. Do not serve unbuilt JSX.
+The public site can display on static hosting, but enquiry persistence and admin require the backend. GitHub Pages or copying `dist` alone to cPanel does NOT provide the API. Use the PHP-enabled `deploy/` folder for cPanel. Do not serve unbuilt JSX.
 
 ## Local run
 

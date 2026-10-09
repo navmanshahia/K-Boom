@@ -4,3 +4,6 @@ dist/
 .env
 .netlify/
 test-results/
+config.php
+.private/
+deploy-path.txt
