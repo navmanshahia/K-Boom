@@ -1,180 +1,51 @@
-# K•BOOM Kleen
+# K-Boom Kleen — The art of arriving home
 
-### Premium property care for Wānaka & surrounds
+A complete replacement of the previous application. React / Vite website, interactive Three.js room, Node API and Netlify Blobs persistence. Previous source remains recoverable in Git history.
 
-A polished, motion-led website and quote-management platform for **K-Boom Kleen** — designed around a simple promise: make every property feel immaculate, effortless and guest-ready.
+## Deploy to Netlify (full stack)
 
-> **Immaculate spaces. Effortlessly ready.**
+Connect this repository, branch `main`. The included `netlify.toml` sets `npm run build`, `dist`, functions and API routes. Node 22 or newer is required. Netlify provisions Blobs storage automatically.
 
----
+Set environment variables in Netlify **before using the owner dashboard**:
 
-## ✦ The Experience
+- `KBOOM_ADMIN_PASSWORD`: a long unique private password (required).
+- `KBOOM_SESSION_SECRET`: a separate random secret, recommended (at least 32 characters). Changing it invalidates existing sessions. If omitted the admin password signs sessions.
 
-K-Boom is more than a brochure website. It combines a luxury customer experience with a practical operating system for the business owner.
+Redeploy after adding variables. Open `/admin` to sign in. No default password exists. The existing environment variable name is preserved for compatibility, but this new application uses a separate `kboom-v3-production` store; it does not migrate or delete historical enquiry data.
 
-### Customer website
-- Premium responsive design for desktop, tablet and mobile
-- Framer Motion interactions, reveals and transitions
-- Short-stay turnover, deep-clean and linen-service presentation
-- Interactive instant quote estimator
-- Private pricing logic — internal hourly pricing is never displayed publicly
-- GST-inclusive customer estimate
-- Two-step quote-request flow
-- Service-area presentation for Wānaka, Albert Town, Lake Hāwea and Luggate
+The public site can display on static hosting, but enquiry persistence and admin require the backend. GitHub Pages or copying `dist` alone to cPanel does NOT provide the API. Netlify is the supported production deployment. Do not serve unbuilt JSX.
 
-### Owner portal
-- Secure owner login
-- Live quote-request dashboard
-- Customer contact, area, requested date and property notes
-- Estimate values and request history
-- Quote pipeline statuses: New → Contacted → Booked / Declined
-- Dashboard metrics
-- Dynamic website-copy controls
-- Private estimator/pricing controls
-- Persistent configuration and quote storage with Netlify Blobs
+## Local run
 
----
-
-## ✦ Technology
-
-| Layer | Technology |
-| --- | --- |
-| Frontend | React |
-| Build | Vite |
-| Motion | Framer Motion |
-| Icons | Lucide React |
-| Hosting | Netlify |
-| Serverless API | Netlify Functions |
-| Persistence | Netlify Blobs |
-| Source control | GitHub |
-
----
-
-## ✦ Project Structure
-
-```text
-K-Boom/
-├── index.html
-├── admin.html
-├── package.json
-├── netlify.toml
-├── src/
-│   ├── premium.jsx
-│   └── premium.css
-└── netlify/
-    └── functions/
-        ├── config.js
-        └── quotes.js
+```sh
+npm ci
+KBOOM_ADMIN_PASSWORD='choose-a-local-password' npm run dev
 ```
 
-The repository may also contain earlier design/source files retained during development. The production entry point is configured through `index.html`.
+Open http://localhost:5173. Local data lives in ignored `.data/`. This is isolated from Netlify. `npm run build` builds production assets; `npm start` serves the build with the local API. Put TLS and a production process manager in front if adapting this server to another host.
 
----
+## Features
 
-## ✦ Local Development
+- Responsive editorial design, scroll reveals, reduced-motion support.
+- Lazy-loaded real Three.js architectural bedroom with pointer perspective.
+- Actual-work gallery and separate atmosphere photography, explicitly identified.
+- Two-step consultation enquiry with validation, consent and real durable storage.
+- Owner session in HttpOnly / Secure / SameSite cookie; 8-hour expiry.
+- Login throttling, same-origin mutation checks, request limits and honeypot.
+- Enquiry search, status filters, private notes and status workflow.
+- Edit headline, introductory text, phone and email from admin.
+- Privacy page, mobile menu, FAQ, working phone/email contact links.
 
-Requirements: a current Node.js/npm installation.
+## Operations and limitations
 
-```bash
-npm install
-npm run dev
-```
+Enquiries are requests, not confirmed bookings. There is no payment collection or live availability calendar. Email notifications are not configured: the owner must check the dashboard. No outgoing messages are sent automatically. Configure an email service in a subsequent integration if required.
 
-Create a production build with:
+No fabricated reviews, ratings or business promises were added. The illustrative 3D room and atmosphere photographs do not represent completed K-Boom projects. Actual results are from the existing K-Boom website. Obtain/retain property-owner permission for public display. Founder background and contact details were carried over from the existing public website and should be confirmed by the owner.
 
-```bash
-npm run build
-```
+## Images
 
-Vite outputs the production website to `dist/`.
+Atmosphere imagery from Unsplash: photo-1600210492486-724fe5c67fb0, photo-1611892440504-42a792e24d32, photo-1600607687920-4e2a09cf159d. Actual results: original K-Boom `assets/gallery/work.jpg` and `main.jpg`. Images are stored locally so the gallery does not depend on the old deployment.
 
----
+## Verification
 
-## ✦ Netlify Deployment
-
-The included `netlify.toml` configures:
-
-```toml
-[build]
-  command = "npm run build"
-  publish = "dist"
-```
-
-Netlify Functions are located in `netlify/functions/`.
-
-### Required environment variable
-
-Set this in the Netlify site's environment variables:
-
-```text
-KBOOM_ADMIN_PASSWORD
-```
-
-Use a strong private value. **Never commit the actual password to this repository.**
-
-The owner portal is available at:
-
-```text
-/admin.html
-```
-
----
-
-## ✦ Quote Estimator
-
-The estimator converts the selected property scope into an internal time/cost calculation and presents the customer with a simple GST-inclusive estimated total.
-
-Internal pricing variables are intentionally managed separately from the public-facing presentation. Customers do **not** see an hourly-rate breakdown.
-
-The owner portal provides controls for estimator values so pricing can evolve without redesigning the customer experience.
-
-> Estimates are indicative until K-Boom confirms the final scope and booking.
-
----
-
-## ✦ Dynamic Content
-
-The website retrieves its configurable content from the Netlify configuration function. This allows selected website text and estimator settings to be maintained through the owner portal rather than hard-coded for every update.
-
-Quote submissions are handled by the quote function and stored for the owner dashboard.
-
----
-
-## ✦ Security Notes
-
-- Keep `KBOOM_ADMIN_PASSWORD` only in Netlify environment variables.
-- Do not commit credentials, API keys or customer exports.
-- Admin API operations require the configured owner password.
-- Public customers can submit quote requests but cannot access the owner quote list.
-- Internal estimator pricing should remain private.
-
----
-
-## ✦ Brand Direction
-
-The digital identity is built around **quiet luxury**: warm ivory, deep botanical tones, restrained gold accents, editorial typography, generous negative space and purposeful motion.
-
-The goal is not to make cleaning look transactional. It is to make K-Boom feel like **premium property care**.
-
----
-
-## ✦ Service Area
-
-**Wānaka · Albert Town · Lake Hāwea · Luggate**
-
----
-
-## Status
-
-**Active development / production deployment**
-
-Current focus:
-- Premium customer experience
-- Reliable quote-estimator workflow
-- Owner-controlled content and pricing
-- Quote lead management
-- Production stability on Netlify
-
----
-
-© K-Boom Kleen. All rights reserved.
+`npm test` tests persistence, admin authorization, session tampering, cross-origin rejection and missing deployment credentials. `npm run build` checks the production bundle. Browser smoke test: `node tests/browser.mjs` against local server (Playwright Chromium required).
