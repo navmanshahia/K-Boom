@@ -1,3 +1,9 @@
+## Cinematic edition
+
+The homepage now opens with a full-screen Three.js architectural film: procedural alpine scenery, rippling water, warm lights, drifting particles and a scroll-controlled camera moving towards the interior. Three editorial chapters follow the camera journey. Motion can be paused; reduced-motion users get a static opening without the extended scroll sequence. A photographic fallback remains visible if WebGL is unavailable. This is an illustrative brand environment, not a claim about a property serviced by K-Boom.
+
+The release is already built in `deploy/`. In the current cPanel checkout, open `https://elite-noir.com/K-BoomKleen/deploy/` after updating from remote. No npm is needed on the host. Keep existing server-side `config.php` and `.private/` data.
+
 # cPanel deployment — primary deployment method
 
 The `deploy/` folder contains the complete prebuilt website and PHP backend. No npm or Node is needed on your cPanel host. Requires PHP 8.1+ and Apache/LiteSpeed with `.htaccess` rewriting enabled. Use HTTPS.
